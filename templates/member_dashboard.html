@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Welcome, {{ member.username }}</h1>
+        <a href="/logout"><button class="btn btn-danger">Logout</button> </a>
+
+        <!-- Display Groups -->
+        <div class="mt-4">
+            <h2>Your Groups</h2>
+            {% if groups %}
+            <ul class="list-group">
+                {% for group in groups %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ group.name }}
+                    <a href="{{ url_for('group', id=group.id) }}" class="btn btn-sm btn-primary">View Group</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No groups found. Create a new group below!</p>
+            {% endif %}
+        </div>
+
+        <!-- Create New Group -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

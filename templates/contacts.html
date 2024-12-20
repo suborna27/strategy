@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}Home{% endblock %}</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+
+
+    <!-- Fonts and icons -->
+  <!-- JS Files -->
+<script src="{{ url_for('static', filename='js/plugin/webfont/webfont.min.js') }}"></script>
+<script>
+  WebFont.load({
+    google: { families: ["Public Sans:300,400,500,600,700"] },
+    custom: {
+      families: [
+        "Font Awesome 5 Solid",
+        "Font Awesome 5 Regular",
+        "Font Awesome 5 Brands",
+        "simple-line-icons",
+      ],
+      urls: ["{{ url_for('static', filename='css/fonts.min.css') }}"],
+    },
+    active: function () {
+      sessionStorage.fonts = true;
+    },
+  });
+</script>
+
+<!-- CSS Files -->
+          <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/plugins.min.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kaiadmin.min.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+
+
+
+  </head>
+  <body>
+    <div class="wrapper sidebar_minimize">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="light">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="light">
+            <a href="/" class="logo">
+             LOGO
+            </a>
+
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="nav-item">
+
+ <a href="/admin/dashboard">
+                  <i class="fas fa-home"></i> dashboard                  <span class="caret"></span>
+                </a>
+              </li>
+
+               <li class="nav-item ">
+                <a href="/contacts">
+Contacts                  <span class="caret"></span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/groups">
+Groups
+                  <span class="caret"></span>
+                </a>
+              </li>
+
+              <li class="nav-item active">
+                <a href="/team">
+                  Team
+                  <span class="caret"></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+              <a href="/" class="logo">
+               LOGO
+              </a>
+              <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
+              </div>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
+            </div>
+            <!-- End Logo Header -->
+          </div>
+          <!-- Navbar Header -->
+          <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+          >
+            <div class="container-fluid">
+              <nav
+                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+              >
+
+  {% block header_content %}
+            <h2>Welcome</h2>
+        {% endblock %}              </nav>
+
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+
+
+                <li class="nav-item topbar-user dropdown hidden-caret">
+                  <a
+                    class="dropdown-toggle profile-pic"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <div class="avatar-sm">
+
+                    </div>
+                    <span class="profile-username">
+                    User
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-user animated fadeIn">
+                    <div class="dropdown-user-scroll scrollbar-outer">
+                      <li>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                      </li>
+
+                    </div>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+        </div>
+
+        <div class="container campaigncard">
+
+  <div class="container my-5">
+        <h1 class="text-center mb-4">All contacts</h1>
+
+        <div class="row">
+            <!-- Team Members Section -->
+
+
+
+            <!-- Contact Section (Below Groups) -->
+<div class="col-md-12 mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h3 class="card-title">Contacts</h3>
+            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addContactModal">Add Contact</button>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% if contacts %}
+                    {% for contact in contacts %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ contact.name }}</strong> - {{ contact.phonenumber }} - {{ contact.email or 'No Email' }}
+                        </div>
+                        <div>
+                            <a href="{{ url_for('edit_contact', id=contact.id) }}" class="btn btn-sm btn-warning me-2">Edit</a>
+                            <form action="{{ url_for('delete_contact', id=contact.id) }}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item text-center">No contacts available</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Add Contact Modal -->
+<div class="modal fade" id="addContactModal" tabindex="-1" aria-labelledby="addContactModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addContactModalLabel">Add Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('add_contact') }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phonenumber" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phonenumber" name="phonenumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Contact</button>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-info mt-3">
+                    {{ messages[0] }}
+                </div>
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+
+
+
+<!-- Add Group Modal -->
+<div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGroupModalLabel">Add Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('addgroups') }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Group Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Group</button>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-info mt-3">
+                    {{ messages[0] }}
+                </div>
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Add Team Member Modal -->
+    <div class="modal fade" id="addTeamMemberModal" tabindex="-1" aria-labelledby="addTeamMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTeamMemberModalLabel">Add Team Member</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ url_for('add_team_member') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+
+
+                            <div class="mb-3">
+                 <label for="role" class="form-label">Role</label>
+                <select class="form-select" id="role" name="role" required>
+                    <option value="" selected disabled>Select Team member role</option>
+                    <option value="user">Team Member</option>
+                   <option value="admin">Admin</option>
+
+                </select>
+            </div>
+                        <div class="mb-3">
+                            <label for="phonenumber" class="form-label">Phone Number</label>
+                            <select class="form-select" id="phonenumber" name="phonenumber" required>
+                                <option value="" selected disabled>Select a phone number</option>
+                                {% for number in phone_numbers %}
+                                <option value="{{ number }}">{{ number }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Team Member</button>
+                    </form>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-info mt-3">
+                        {{ messages[0] }}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+
+      </div>
+    </div>
+      <!-- Custom template | don't include it in your project! -->
+      <!-- End Custom template -->
+
+    <!--   Core JS Files   -->
+
+
+
+<script src="{{ url_for('static', filename='js/core/jquery-3.7.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/core/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/core/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/kaiadmin.min.js') }}"></script>
+      <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+
+  </body>
+</html>
