@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Group: {{ group.name }}</h1>
+            <a href="/dashboard"> <button class="btn btn-success">Return to Dashboard</button></a>
+
+        <!-- Add Member Section -->
+        <div class="mt-4">
+            <h2>Add Member to Group</h2>
+            <form method="POST" action="{{ url_for('add_member_to_group', group_id=group.id) }}">
+                <div class="mb-3">
+                    <label for="member_type" class="form-label">Member Type</label>
+                    <select class="form-select" id="member_type" name="member_type" required>
+                        <option value="" disabled selected>Select Member Type</option>
+                        <option value="team_member">Team Member</option>
+                        <option value="contact">Contact</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="member_id" class="form-label">Select Member</label>
+                    <select class="form-select" id="member_id" name="member_id" required>
+                        <option value="" disabled selected>Select a Member</option>
+                             {% for member in team_members %}
+                <option value="{{ member.id }}">Team Member: {{ member.username }}</option>
+                {% endfor %}
+                {% for contact in contacts %}
+                <option value="{{ contact.id }}">Contact: {{ contact.name }}</option>
+                {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Member</button>
+            </form>
+        </div>
+
+        <h3>Group Members</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username/Name</th>
+            <th>Phone Number</th>
+            <th>Member Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in group_members %}
+        <tr>
+            <td>{{ member.username }}</td>
+            <td>{{ member.phonenumber }}</td>
+            <td>{{ member.member_type }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+        <!-- Conversation Box -->
+<!-- Conversation Box -->
+<div class="mt-5">
+    <h2>Conversation</h2>
+    <div class="border p-3 mb-3" style="height: 300px; overflow-y: auto; background-color: #f9f9f9;">
+        <ul class="list-unstyled">
+            {% for message in conversation_messages %}
+            <li>
+                <strong>{{ message.sender }}</strong>: {{ message.body }}
+                <span class="text-muted">{{ message.timestamp }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+
+    <!-- Send Message Form -->
+    <form method="POST" action="{{ url_for('group', id=group.id) }}">
+        <div class="mb-3">
+            <label for="message_body" class="form-label">Send a Message</label>
+            <input
+                type="text"
+                id="message_body"
+                name="message_body"
+                class="form-control"
+                placeholder="Type your message here"
+                required
+            />
+        </div>
+        <button type="submit" class="btn btn-success">Send</button>
+    </form>
+</div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -174,6 +174,21 @@ def delete_contact(id):
 
 
 
+@app.route('/admin/group/delete/<int:id>', methods=['POST'])
+@login_required
+def deletegroup(id):
+    group = MessageGroup.query.get_or_404(id)
+
+
+    # Delete the group from the database
+    try:
+        db.session.delete(group)
+        db.session.commit()
+        flash(f"Group '{group.name}' deleted successfully from the database!", "success")
+    except Exception as e:
+        flash(f"Error deleting group from the database: {str(e)}", "danger")
+
+    return redirect(url_for('admin_dashboard'))
 
 
 

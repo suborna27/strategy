@@ -59,9 +59,9 @@
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
               <li class="nav-item">
-      <a href="/admin/dashboard">
-                 Dashboard
-                  <span class="caret"></span>
+
+ <a href="/admin/dashboard">
+                  <i class="fas fa-home"></i> dashboard                  <span class="caret"></span>
                 </a>
               </li>
 
@@ -145,7 +145,7 @@ Groups
                   <ul class="dropdown-menu dropdown-user animated fadeIn">
                     <div class="dropdown-user-scroll scrollbar-outer">
                       <li>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
                       </li>
 
                     </div>
@@ -160,67 +160,11 @@ Groups
         <div class="container campaigncard">
 
   <div class="container my-5">
-        <h1 class="text-center mb-4">Admin Dashboard</h1>
+        <h1 class="text-center mb-4">All contacts</h1>
 
         <div class="row">
             <!-- Team Members Section -->
-            <div class="col-md-6">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h3 class="card-title">Team Members</h3>
-                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addTeamMemberModal">Add Team Member</button>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-group">
-                            {% for member in team_members %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <strong>{{ member.username }}</strong> - {{ member.role }}
-                                </div>
-                                <div>
-                                    <a href="{{ url_for('edit_team_member', id=member.id) }}" class="btn btn-sm btn-warning me-2">Edit</a>
-                                    <form action="{{ url_for('delete_team_member', id=member.id) }}" method="post" class="d-inline">
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Groups Section -->
-    <!-- Groups Section -->
-<div class="col-md-6">
-    <div class="card shadow">
-        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-            <h3 class="card-title">Groups</h3>
-            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addGroupModal">Add Group</button>
-        </div>
-        <div class="card-body">
-            <ul class="list-group">
-           {% if groups %}
-    {% for group in groups %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        <div>
-            <a href="{{ url_for('group', id=group.id) }}"><strong>{{ group.name }}</strong></a>
-        </div>
-        <div>
-              <form action="{{ url_for('deletegroup', id=group.id) }}" method="post" class="d-inline">
-                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-            </form>
-        </div>
-    </li>
-    {% endfor %}
-{% else %}
-    <li class="list-group-item text-center">No groups available</li>
-{% endif %}
-
-            </ul>
-        </div>
-    </div>
-</div>
 
 
             <!-- Contact Section (Below Groups) -->
